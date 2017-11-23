@@ -226,16 +226,16 @@ end
 """
     tpfplot(f)
     tpfplot(f1, f2, ...)
-    tpfplot(f1, f2, ..., names=[label1, label2, ...])
+    tpfplot(f1, f2, ..., labels=[label1, label2, ...])
 
-Grafica a un polinomio trigonométrico (trigPoly) o función (Function) `f` o a la colección de polinomios trigonométricos o funciones `f1`, `f2`, ...; el argumento opcional `names`, de aparecer, debe especificar nombres para las curvas ingresadas como un arreglo de cadenas de tipo `String`.
+Grafica a un polinomio trigonométrico (trigPoly) o función (Function) `f` o a la colección de polinomios trigonométricos o funciones `f1`, `f2`, ...; el argumento opcional `labels`, de aparecer, debe especificar nombres para las curvas ingresadas como un arreglo de cadenas de tipo `String`.
 
 La figura obtenida se puede guardar mediante la sintaxis
 
     fh = tpfplot(...)
     fh[:savefig]("some_filename.eps")
 """
-function tpfplot(vf::Vararg{Union{Function,trigPoly}}; names=[])
+function tpfplot(vf::Vararg{Union{Function,trigPoly}}; labels=[])
 	fig, ax = PyPlot.subplots(1, 2, sharey=true)
 	PyPlot.sca(ax[1])
 	PyPlot.title("Real part")
@@ -243,11 +243,11 @@ function tpfplot(vf::Vararg{Union{Function,trigPoly}}; names=[])
 	PyPlot.title("Imaginary part")
 	handlesreal = []
 	handlesimag = []
-	defaultNamesFlag = isempty(names)
+	defaultNamesFlag = isempty(labels)
 	for i = 1:length(vf)
 		c = "C$((i-1)%10)" # Especificación de color
 		if defaultNamesFlag
-			push!(names, "Curve $(i)")
+			push!(labels, "Curve $(i)")
 		end
 		if typeof(vf[i]) <: trigPoly
 			nsamples = max(150, 6*length(vf[i].coefs))
@@ -278,9 +278,9 @@ function tpfplot(vf::Vararg{Union{Function,trigPoly}}; names=[])
 		end
 	end
 	PyPlot.sca(ax[1])
-	PyPlot.legend(map(h -> tuple(h...), handlesreal), tuple(names...))
+	PyPlot.legend(map(h -> tuple(h...), handlesreal), tuple(labels...))
 	PyPlot.sca(ax[2])
-	PyPlot.legend(map(h -> tuple(h...), handlesimag), tuple(names...))
+	PyPlot.legend(map(h -> tuple(h...), handlesimag), tuple(labels...))
 	fig
 end
 
