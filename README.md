@@ -7,7 +7,7 @@ Paquete para [Julia](https://julialang.org/) que aproxima, manipula y resuelve E
 Primero es necesario haber [instalado Julia](https://julialang.org/downloads/). Luego, desde la ventana de comandos de Julia, se debe ejecutar:
 
 ```julia-repl
-julia > Pkg.clone("https://github.com/lfiguero/paqueteFourier.git")
+julia> Pkg.clone("https://github.com/lfiguero/paqueteFourier.git")
 ```
 
 ## Ejemplo de utilización
