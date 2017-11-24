@@ -12,20 +12,22 @@ julia> Pkg.clone("https://github.com/lfiguero/paqueteFourier.git")
 
 ## Ejemplo de utilización
 
-```julia-repl
+```julia
 using paqueteFourier
-f = trigPoly([0.0, 0.0, 0.0, 0.5im, -0.5im]) # ¡Comas son importantes!
-f(0.0)
+f = trigPoly([0.0, 0.0, 0.0, 0.5im, -0.5im]) # ¡Comas importan!
+f(π/8)
 vals(f)
-x = nodes(length(f.coefs))
-f(x)
+nd = nodes(length(f.coefs))
+f(nd)
 g = trigPoly(t -> -1/2*cos(2t), 7)
 innerProduct(f,g)
 h = diff(g)
 norm(f-h)
 f*g
-πf - 2.0im*g
-tpfplot(f,g,h,x->abs(x-1))
+3*f - 2.0im*g
+wave = t -> t^2*(2π-t)^2*exp((-1.3+3.9im)t)
+w = trigPoly(wave, 18)
+tpfplot(wave, w, labels=["wave", "I_18(wave)"])
 ```
 
 ## Contenidos
