@@ -77,7 +77,7 @@ Si `f` es un `trigPoly`, `norm(f)` devuelve la norma L² del polinomio trigonom�
 
 ## Cómo consultar ayuda
 
-La ayuda de Julia se encuentra en [https://docs.julialang.org/](https://docs.julialang.org/); ahí se puede especificar una versión particular de Julia de ser necesario.
+La ayuda de Julia se encuentra en <https://docs.julialang.org/>; ahí se puede especificar una versión particular de Julia de ser necesario.
 
 Si uno tipea `?` en la ventana de comandos de Julia, el *prompt* cambia de `julia>` a `help?>`. Entonces se puede tipear un comando y para obtener ayuda acerca de él, de haberla.
 
@@ -87,3 +87,14 @@ Si uno tipea `?` en la ventana de comandos de Julia, el *prompt* cambia de `juli
 El código fuente del paquete está en `src/paqueteFourier.jl` dentro de [la página de GitHub para este repositorio](https://github.com/lfiguero/paqueteFourier).
 
 Notar que al instalar el paquete en una configuración local de Julia, automáticamente se *clona* el paquete (en Linux, por defecto, en `~/.julia/v0.6/paqueteFourier`; reemplazar el `0.6` con la versión de Julia instalada), por lo que también se podrían examinar los contenidos en forma local.
+
+
+## Comentarios misceláneos
+
+Julia compila las funciones al ejecutarlas por primera vez. Como consecuencia, es común que la primera ejecución de una función sea lenta, pero que las posteriores ejecuciones sean rápidas.
+
+Los *scripts* (ruteros) de Julia suelen llevar extensión `jl` (por ejemplo, `tarea_4_Perico.jl`). Para ejecutarse deben llamarse usando el comando `include` (por ejemplo, `include("tarea_4_Perico.jl")`, si es que ese archivo está en el directorio actual (el que a su vez puede consultarse dentro de Julia mediante los comandos `pwd` y `cd`)).
+
+Al llamar a una función en Julia siempre es necesario poner los paréntesis, incluso si la función no lleva argumentos. Por ejemplo, escribir `pwd` a secas devolverá la *función* `pwd`; para obtener el directorio actual uno debe *ejecutar* `pwd` mediante `pwd()`.
+
+Quienes tengan experiencia en Matlab, R, Python o C/C++ harán bien en consultar <https://docs.julialang.org/en/stable/manual/noteworthy-differences/>; de nuevo, ahí se puede especificar una versión particular de Julia de ser necesario.
