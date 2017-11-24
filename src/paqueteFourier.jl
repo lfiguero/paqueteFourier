@@ -245,7 +245,7 @@ function tpfplot(vf::Vararg{Union{Function,trigPoly}}; labels=[])
 	handlesimag = []
 	defaultNamesFlag = isempty(labels)
 	for i = 1:length(vf)
-		c = "C$((i-1)%10)" # Especificación de color
+		c = ["b" "g" "r" "c" "m" "y" "k"][(i-1)%7+1] # Especificación de color
 		if defaultNamesFlag
 			push!(labels, "Curve $(i)")
 		end
