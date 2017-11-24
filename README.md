@@ -86,4 +86,4 @@ Si uno tipea `?` en la ventana de comandos de Julia, el *prompt* cambia de `juli
 
 El código fuente del paquete está en `src/paqueteFourier.jl` dentro de [la página de GitHub para este repositorio](https://github.com/lfiguero/paqueteFourier).
 
-Notar que al instalar el paquete en una configuración local de Julia, automáticamente se *clona* el paquete (en Linux, por defecto, en `~/.julia/v0.6/paqueteFourier` (reemplazar el `0.6` con la versión de Julia instalada), por lo que también se podrían examinar los contenidos ahí.
+Notar que al instalar el paquete en una configuración local de Julia, automáticamente se *clona* el paquete (en Linux, por defecto, en `~/.julia/v0.6/paqueteFourier`; reemplazar el `0.6` con la versión de Julia instalada), por lo que también se podrían examinar los contenidos en forma local.
