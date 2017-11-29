@@ -233,7 +233,7 @@ Grafica a un polinomio trigonométrico (trigPoly) o función (Function) `f` o a 
 La figura obtenida se puede guardar mediante la sintaxis
 
     fh = tpfplot(...)
-    fh[:savefig]("some_filename.eps")
+    Gadfly.draw(Gadfly.SVG("myplot.svg", 15Gadfly.cm, 9Gadfly.cm), fh)
 """
 function tpfplot(vf::Vararg{Union{Function,trigPoly}}; labels=[])
 	defaultNamesFlag = isempty(labels)
