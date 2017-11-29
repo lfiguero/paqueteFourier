@@ -2,7 +2,7 @@ module paqueteFourier
 
 import Base: +, -, *, /
 
-import PyPlot
+import Gadfly
 
 # Notar que los métodos de +, -, *, / y diff se exportan solos
 export trigPoly, innerProduct, nodes, vals, tpfplot
@@ -236,16 +236,13 @@ La figura obtenida se puede guardar mediante la sintaxis
     fh[:savefig]("some_filename.eps")
 """
 function tpfplot(vf::Vararg{Union{Function,trigPoly}}; labels=[])
-	fig, ax = PyPlot.subplots(1, 2, sharey=true)
-	PyPlot.sca(ax[1])
-	PyPlot.title("Real part")
-	PyPlot.sca(ax[2])
-	PyPlot.title("Imaginary part")
-	handlesreal = []
-	handlesimag = []
 	defaultNamesFlag = isempty(labels)
+	layersReal = []
+	layersImag = []
+	layerLabels = []
+	layerColors = []
 	for i = 1:length(vf)
-		c = ["b" "g" "r" "c" "m" "y" "k"][(i-1)%7+1] # Especificación de color
+		c = ["blue" "green" "red" "deepskyblue" "magenta" "gold" "lightcoral" "black"][(i-1)%8+1]
 		if defaultNamesFlag
 			push!(labels, "Curve $(i)")
 		end
@@ -260,28 +257,24 @@ function tpfplot(vf::Vararg{Union{Function,trigPoly}}; labels=[])
 			# nodos de Fourier que corresponde a vf[i]
 			xn = nodes(length(vf[i].coefs))
 			vfin = vals(vf[i])
-			PyPlot.sca(ax[1])
-			h = PyPlot.plot(x, real(vfix), c*"-", xn, real(vfin), c*".")
-			push!(handlesreal, h)
-			PyPlot.sca(ax[2])
-			h = PyPlot.plot(x, imag(vfix), c*"-", xn, imag(vfin), c*".")
-			push!(handlesimag, h)
+			push!(layersReal, Gadfly.layer(x=x, y=real(vfix), Gadfly.Geom.line, Gadfly.Theme(default_color=c)))
+			push!(layersReal, Gadfly.layer(x=xn, y=real(vfin), Gadfly.Geom.point, Gadfly.Theme(default_color=c)))
+			push!(layersImag, Gadfly.layer(x=x, y=imag(vfix), Gadfly.Geom.line, Gadfly.Theme(default_color=c)))
+			push!(layersImag, Gadfly.layer(x=xn, y=imag(vfin), Gadfly.Geom.point, Gadfly.Theme(default_color=c)))
+			push!(layerColors, c); push!(layerLabels, labels[i])
 		else
 			x = linspace(0,2π,2000)
 			vfix = map(vf[i], x)
-			PyPlot.sca(ax[1])
-			h = PyPlot.plot(x, real(vfix), c*"-")
-			push!(handlesreal, h)
-			PyPlot.sca(ax[2])
-			h = PyPlot.plot(x, imag(vfix), c*"-")
-			push!(handlesimag, h)
+			push!(layersReal, Gadfly.layer(x=x, y=real(vfix), Gadfly.Geom.line, Gadfly.Theme(default_color=c)))
+			push!(layersImag, Gadfly.layer(x=x, y=imag(vfix), Gadfly.Geom.line, Gadfly.Theme(default_color=c)))
+			push!(layerColors, c); push!(layerLabels, labels[i])
 		end
 	end
-	PyPlot.sca(ax[1])
-	PyPlot.legend(map(h -> tuple(h...), handlesreal), tuple(labels...))
-	PyPlot.sca(ax[2])
-	PyPlot.legend(map(h -> tuple(h...), handlesimag), tuple(labels...))
-	fig
+	labelSpecification = Gadfly.Guide.manual_color_key("", layerLabels, layerColors)
+	Gadfly.hstack(
+	       Gadfly.plot(layersReal..., Gadfly.Guide.XLabel("θ"), Gadfly.Guide.YLabel(""), Gadfly.Guide.Title("Real part"), Gadfly.Coord.cartesian(xmin=0, xmax=2π), Gadfly.Theme(key_position=:bottom), labelSpecification),
+	       Gadfly.plot(layersImag..., Gadfly.Guide.XLabel("θ"), Gadfly.Guide.YLabel(""), Gadfly.Guide.Title("Imaginary part"), Gadfly.Coord.cartesian(xmin=0, xmax=2π), Gadfly.Theme(key_position=:bottom), labelSpecification)
+	       )
 end
 
 end # module
